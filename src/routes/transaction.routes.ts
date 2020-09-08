@@ -9,7 +9,8 @@ const transactionRouter = Router();
 
 transactionRouter.get('/', (request, response) => {
   try {
-    // TODO
+    const { title, value, type } = request.body;
+    
   } catch (err) {
     return response.status(400).json({ error: err.message });
   }
