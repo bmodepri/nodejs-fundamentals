@@ -4,7 +4,7 @@ import Transaction from '../models/Transaction';
 interface Request {
   title: string;
   value: number;
-  type: string
+  type: "income" | "outcome";
 }
 
 class CreateTransactionService {
@@ -14,9 +14,8 @@ class CreateTransactionService {
     this.transactionsRepository = transactionsRepository;
   }
 
-  public execute({ title, value, type }): Transaction {
-    
-    
+  public execute({ title, value, type }: Request ): Transaction {
+        
 
   }
 }
