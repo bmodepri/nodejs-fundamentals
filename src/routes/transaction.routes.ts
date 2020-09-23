@@ -12,7 +12,12 @@ const transactionsRepository = new TransactionsRepository();
 transactionRouter.get('/', (request, response) => {
   try {
     const transactions = transactionsRepository.all();
-    response.status(200).send(transactions);
+    const balance = transactionsRepository.getBalance();
+
+    response.status(200).send({
+      transactions,
+      balance
+    });
   } catch (err) {
     return response.status(400).json({ error: err.message });
   }

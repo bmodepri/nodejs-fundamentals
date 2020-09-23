@@ -1,5 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+var Transaction_1 = __importDefault(require("../models/Transaction"));
 var TransactionsRepository = /** @class */ (function () {
     function TransactionsRepository() {
         this.transactions = [];
@@ -8,10 +12,35 @@ var TransactionsRepository = /** @class */ (function () {
         return this.transactions;
     };
     TransactionsRepository.prototype.getBalance = function () {
-        // TODO
+        var _a = this.transactions.reduce(function (accumulator, transaction) {
+            switch (transaction.type) {
+                case "income":
+                    accumulator.income += transaction.value;
+                    break;
+                case "outcome":
+                    accumulator.outcome += transaction.value;
+                    break;
+                default:
+                    break;
+            }
+            return accumulator;
+        }, {
+            income: 0,
+            outcome: 0,
+            total: 0
+        }), income = _a.income, outcome = _a.outcome;
+        var total = income - outcome;
+        return { income: income, outcome: outcome, total: total };
     };
-    TransactionsRepository.prototype.create = function () {
-        // TODO
+    TransactionsRepository.prototype.create = function (_a) {
+        var title = _a.title, value = _a.value, type = _a.type;
+        var transaction = new Transaction_1.default({
+            title: title,
+            value: value,
+            type: type
+        });
+        this.transactions.push(transaction);
+        return transaction;
     };
     return TransactionsRepository;
 }());
