@@ -15,9 +15,13 @@ class CreateTransactionService {
   }
 
   public execute({ title, value, type }: Request ): Transaction {
-    
-    // test
+    const transction = this.transactionsRepository.create({
+      title,
+      value,
+      type
+    });
 
+    return transction;
   }
 }
 
