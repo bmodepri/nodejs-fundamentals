@@ -7,12 +7,12 @@ import TransactionsRepository from '../repositories/TransactionsRepository';
 
 const transactionRouter = Router();
 
-// const transactionsRepository = new TransactionsRepository();
+const transactionsRepository = new TransactionsRepository();
 
 transactionRouter.get('/', (request, response) => {
   try {
-    const { title, value, type } = request.body;
-    
+    const transactions = transactionsRepository.all();
+    response.status(200).send(transactions);
   } catch (err) {
     return response.status(400).json({ error: err.message });
   }
@@ -24,7 +24,7 @@ transactionRouter.post('/', (request, response) => {
     const { title, value, type } = request.body;
 
     const createTransaction = new CreateTransactionService(
-      TransactionsRepository,
+      transactionsRepository,
     )
 
     const transaction = createTransaction.execute({
@@ -32,6 +32,8 @@ transactionRouter.post('/', (request, response) => {
       value,
       type,
     });
+
+    return response.status(200).send(transaction);
 
   } catch (err) {
     return response.status(400).json({ error: err.message });
